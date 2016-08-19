@@ -14,6 +14,9 @@ job(buildJobName) {
     logRotator(-1, 5, -1, -1)
     Utils.configureGit(it, "${repositoryUrl}")
     Utils.configureEnv(it, "${GITHUB_USERNAME}")
+    git {
+  	    branch('ready/')
+	    }
     steps {
         shell('''\
             echo "version=\$(cat version.txt)" > props.env
@@ -35,9 +38,6 @@ job(buildJobName) {
             sudo docker kill ${cid}
             sudo docker rm ${cid}'''.stripIndent())
     }
-  git {
-  	    branch('ready/')
-}
   }
   wrappers {
   	pretestedIntegration("SQUASHED","master","origin")
