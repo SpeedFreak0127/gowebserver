@@ -13,7 +13,6 @@ pipelineName = "${projectName}-pipeline_GEN"
 job(buildJobName) {
     logRotator(-1, 5, -1, -1)
     Utils.configureGit(it, "${repositoryUrl}")
-    branch(String ready/)
     Utils.configureEnv(it, "${GITHUB_USERNAME}")
     steps {
         shell('''\
@@ -36,7 +35,10 @@ job(buildJobName) {
             sudo docker kill ${cid}
             sudo docker rm ${cid}'''.stripIndent())
     }
-  
+  git {
+  	    branch('ready/')
+}
+  }
   wrappers {
   	pretestedIntegration("SQUASHED","master","origin")
   	}
